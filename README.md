@@ -16,8 +16,10 @@ npm install ember-cli-auto-complete --save-dev
 
 First add a custom component that extends the AutoComplete component. In this component you will need to declare 2 computed properties.
 
+```
 1) the suggestions computed that will let you define a filter function
 2) the options that are available for the end user
+```
 
 ```js
 import AutoComplete from "ember-cli-auto-complete/components/auto-complete";
@@ -68,11 +70,13 @@ Now add the html to your template for the custom component you declared above.
 {{my-auto-complete options=options selectedValue=model.code placeHolderText="Find a thing" noMesssagePlaceHolderText="No things are found" showValue=true}}
 ```
 
+```
 1) you must pass in options (again- value/label are the expected properties)
 2) selectedValue should be model bound
 3) optional placeHolderText for the input
 4) optional placeHolderText for the no match message
 5) if you wish to show the value in the dropdown (along side the label) set this to true
+```
 
 ## Running the unit tests
 
