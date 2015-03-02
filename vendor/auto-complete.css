@@ -1,0 +1,141 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+/* Hide 'x' and 'eye' controls in IE10 */
+::-ms-clear,
+::-ms-reveal {
+  display: none;
+}
+
+/* PLACEHOLDERS */
+::-webkit-input-placeholder {
+  color: #91acbc;
+}
+
+:-moz-placeholder {
+  color: #91acbc;
+}
+
+::-moz-placeholder {
+  color: #91acbc;
+}
+
+:-ms-input-placeholder {  
+  color: #91acbc;
+}
+
+/* TEXT INPUT */
+input[type="text"] {
+  background-clip: padding-box;
+  margin: 0;
+  outline: 0;
+  text-align: left;
+  -webkit-appearance: none;
+}
+
+.text-input {
+  display: inline-block;
+  width: 100%;
+  height: 2.5rem;
+  padding: 0 0.75rem;
+  border: 1px solid #91acbc;
+  font-size: 16px;
+  vertical-align: middle;
+  border-radius: .25rem;
+}
+
+/* TYPEAHEAD */
+.typeahead-wrap {
+  display: block;
+  position: relative;
+}
+
+.tt-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #91acbc;
+  background: #fff;
+  list-style: none;
+  border-radius: .25rem;
+  box-shadow: 0 7px 9px rgba(0, 0, 0, .2);
+}
+
+.tt-suggestions {
+  display: block;
+  max-height: 8.75rem;
+  overflow-y: auto;
+}
+
+.tt-suggestion {
+  height: 2.5rem;
+  margin: 0;
+  padding: 0 .75rem;
+  color: #313131;
+  cursor: pointer;
+  line-height: 2.5rem;
+  position: relative;
+}
+
+.tt-suggestion:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-top: 1px solid #cfe0ed;
+}
+
+.tt-suggestion:first-child:before {
+  border: 0;
+}
+
+.tt-suggestion.tt-cursor,
+.tt-suggestion:hover {
+  background: #cfe0ed;
+}
+
+.tt-suggestion b {
+  display: inline-block;
+  width: 4.5rem;
+  font-weight: 600;
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
+
+.tt-suggestions.no-results {
+  height: auto;
+}
+
+.tt-suggestions .message {
+  height: 2.5rem;
+  padding: 0 .75rem;
+  color: #313131;
+  cursor: pointer;
+  line-height: 2.5rem;
+}
+
+.tt-suggestions .message p {
+  margin: 0;
+}
+
+/* the only css I know of that will be used above. Everything else is open :) */
+.tt-suggestion.tt-cursor {
+  background-color: #333;
+  cursor: pointer;
+}
+
+.tt-suggestion.tt-cursor, .tt-suggestion:hover {
+    background: #cfe0ed;
+    cursor:pointer;
+}

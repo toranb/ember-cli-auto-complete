@@ -1,0 +1,18 @@
+<div class="typeahead-wrap">
+{{input class="typeahead text-input" value=selectedValue placeholder=placeHolderText}}
+<span class="tt-dropdown-menu" {{bind-attr style=visibility}}>
+  <div class="tt-dataset-states">
+    <span class="tt-suggestions">
+    {{#each result in suggestions}}
+      <div {{bind-attr class=":tt-suggestion result.highlight:tt-cursor"}} {{action "selectItem" result }}>
+        <p>{{#if showValue}}<b>{{result.value}}</b>{{/if}}{{result.label}}</p>
+      </div>
+    {{else}}
+      <div class="message">
+        <p>{{noMesssagePlaceHolderText}}</p>
+      </div>
+    {{/each}}
+    </span>
+  </div>
+</span>
+</div>
