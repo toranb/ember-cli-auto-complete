@@ -89,6 +89,10 @@ Now add the html to your template for the custom component you declared above.
 4) localhost:4200
 ```
 
+## Credits
+
+First I'd like to thank [Nick Christus] for the design work that made this great component happen to begin with. Next I'd like to thank [Charlie] for his amazing project [ember-cli-suggest] as this project truly represents a fork of his work.
+
 ## License
 
 Copyright © 2015 Toran Billups http://toranbillups.com
@@ -99,3 +103,6 @@ Licensed under the MIT License
 [Build Status]: https://travis-ci.org/toranb/ember-cli-auto-complete.svg?branch=master
 [ember-cli]: http://www.ember-cli.com/
 [ember.js]: http://emberjs.com/
+[Nick Christus]: https://github.com/nchristus
+[Charlie]: https://github.com/klclee
+[ember-cli-suggest]: https://github.com/klclee/ember-cli-suggest
