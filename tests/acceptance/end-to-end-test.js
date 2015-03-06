@@ -142,6 +142,22 @@ test("arrow down and then the enter key will set value the correct value and hid
   });
 });
 
+test("arrow down and then the tab key will set value the correct value and hide the options", function(assert) {
+  visit("/");
+  click("input.typeahead");
+  andThen(function() {
+    assert.equal(find(".tt-suggestion").length, 14);
+  });
+  triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
+  triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
+  triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
+  triggerEvent("input.typeahead", "keydown", { keyCode: 9 });
+  andThen(function() {
+    assert.equal(find("input.typeahead").val(), "ABZ");
+    assert.equal(find(".tt-dropdown-menu").is(":hidden"), true);
+  });
+});
+
 test("arrow down and up will highlight the next option and unhighlight the previous", function(assert) {
   visit("/");
   click("input.typeahead");

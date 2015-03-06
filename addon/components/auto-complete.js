@@ -41,7 +41,7 @@ export default Ember.Component.extend({
             this.highlight("down");
           }else if (event.keyCode === 38){
             this.highlight("up");
-          }else if(event.keyCode === 13){
+          }else if(event.keyCode === 13 || event.keyCode === 9){
             if(!Ember.isBlank(this.selectableSuggestion)){
               this.send("selectItem", this.selectableSuggestion);
               this.set("visibility", "display:none;");
