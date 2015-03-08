@@ -15,6 +15,10 @@
       "type": "git",
       "url": "https://github.com/toranb/ember-cli-auto-complete"
   },
+  "homepage": "https://github.com/toranb/ember-cli-auto-complete",
+  "bugs": {
+      "url": "https://github.com/toranb/ember-cli-auto-complete/issues"
+  },
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -38,7 +42,11 @@
     "rimraf": "2.3.1"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "ember",
+    "ember-cli",
+    "auto-complete",
+    "type-ahead"
   ],
   "ember-addon": {
     "configPath": "tests/dummy/config"
