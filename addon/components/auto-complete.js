@@ -80,8 +80,9 @@ export default Ember.Component.extend({
   },
   actions: {
     selectItem: function(item){
+      var valueProperty = this.get("valueProperty");
       this.set("selectedFromList", true);
-      this.set("selectedValue", item.get("value"));
+      this.set("selectedValue", item.get(valueProperty));
     }
   }
 });

@@ -14,27 +14,29 @@ npm install ember-cli-auto-complete --save-dev
 
 ## How to use this component
 
-First add a custom component that extends the AutoComplete component. In this component you will need to declare 2 computed properties.
+First add a custom component that extends AutoComplete. In this component you need to add 2 computed properties and 1 string variable.
 
 ```
-1) the suggestions computed that will let you define a filter function
-2) the options that are available for the end user
+1) suggestions:    this computed will determine how the list of options is filtered as the user enters text
+2) optionsToMatch: this computed will determine if the value entered is valid (when the user omits to click/enter/tab the selection)
+3) valueProperty:  this string should be the value property for the options passed in (think selectbox value/label)
 ```
 
 ```js
 import AutoComplete from "ember-cli-auto-complete/components/auto-complete";
 
 export default AutoComplete.extend({
+  valueProperty: "code",
   suggestions: function() {
       var inputVal = this.get("inputVal") || "";
       return this.get("options").filter(function(item) {
-          return item.get("value").toLowerCase().indexOf(inputVal.toLowerCase()) > -1;
+          return item.get("code").toLowerCase().indexOf(inputVal.toLowerCase()) > -1;
       });
   }.property("inputVal", "options.@each"),
   optionsToMatch: function() {
       var caseInsensitiveOptions = [];
       this.get("options").forEach(function(item) {
-          var value = item.get("value");
+          var value = item.get("code");
           caseInsensitiveOptions.push(value);
           caseInsensitiveOptions.push(value.toLowerCase());
       });
@@ -43,39 +45,36 @@ export default AutoComplete.extend({
 });
 ```
 
-Next prepare a list of options for the component with both a value and label property
+Next add the component to your template including a block with html for the options (requires ember 1.11)
 
 ```js
+{{#my-auto-complete options=codes selectedValue=model.code placeHolderText="Find a thing" noMesssagePlaceHolderText="No things are found" as |result|}}
+  <p><b>{{result.code}}</b>{{result.text}}</p>
+{{/my-auto-complete}}
+```
+
+Finally prepare a list of options for the component in the route or controller
+
+```js
+var Foo = Ember.Object.extend({});
+var Bar = Ember.Object.extend({code: ""});
+
 export default Ember.Route.extend({
     model: function() {
-        var options = [];
-        options.pushObject(Foo.create({value: "ABC", label: "SOMETHING 1"}));
-        options.pushObject(Foo.create({value: "ABCD", label: "SOMETHING 2"}));
-        options.pushObject(Foo.create({value: "ABCDE", label: "SOMETHING 3"}));
+        var codes = [];
+        codes.pushObject(Foo.create({code: "ABC", text: "SOMETHING 1"}));
+        codes.pushObject(Foo.create({code: "ABCD", text: "SOMETHING 2"}));
+        codes.pushObject(Foo.create({code: "ABCDE", text: "SOMETHING 3"}));
         return Ember.RSVP.hash({
             model: Bar.create(),
-            options: options
+            codes: codes
         });
     },
     setupController: function(controller, hash) {
         controller.set("model", hash.model);
-        controller.set("options", hash.options);
+        controller.set("codes", hash.codes);
     }
 });
-```
-
-Now add the html to your template for the custom component you declared above.
-
-```js
-{{my-auto-complete options=options selectedValue=model.code placeHolderText="Find a thing" noMesssagePlaceHolderText="No things are found" showValue=true}}
-```
-
-```
-1) you must pass in options (again- value/label are the expected properties)
-2) selectedValue should be model bound
-3) optional placeHolderText for the input
-4) optional placeHolderText for the no match message
-5) if you wish to show the value in the dropdown (along side the label) set this to true
 ```
 
 ## Running the unit tests

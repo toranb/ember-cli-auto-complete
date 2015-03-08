@@ -5,7 +5,7 @@
     <span class="tt-suggestions">
     {{#each result in suggestions}}
       <div {{bind-attr class=":tt-suggestion result.highlight:tt-cursor"}} {{action "selectItem" result }}>
-        <p>{{#if showValue}}<b>{{result.value}}</b>{{/if}}{{result.label}}</p>
+        {{yield result}}
       </div>
     {{else}}
       <div class="message">
