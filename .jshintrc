@@ -1,6 +1,5 @@
 {
   "predef": [
-    "$",
     "document",
     "window",
     "-Promise"

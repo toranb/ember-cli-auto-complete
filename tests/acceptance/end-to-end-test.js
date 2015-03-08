@@ -164,26 +164,26 @@ test("arrow down and up will highlight the next option and unhighlight the previ
   triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
   andThen(function() {
     assert.equal(find(".tt-suggestion:eq(0)").attr("class"), "tt-suggestion tt-cursor");
-    assert.equal(find(".tt-suggestion:eq(1)").attr("class"), "tt-suggestion");
-    assert.equal(find(".tt-suggestion:eq(2)").attr("class"), "tt-suggestion");
+    assert.equal(find(".tt-suggestion:eq(1)").attr("class").trim(), "tt-suggestion");
+    assert.equal(find(".tt-suggestion:eq(2)").attr("class").trim(), "tt-suggestion");
   });
   triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
   andThen(function() {
-    assert.equal(find(".tt-suggestion:eq(0)").attr("class"), "tt-suggestion");
+    assert.equal(find(".tt-suggestion:eq(0)").attr("class").trim(), "tt-suggestion");
     assert.equal(find(".tt-suggestion:eq(1)").attr("class"), "tt-suggestion tt-cursor");
-    assert.equal(find(".tt-suggestion:eq(2)").attr("class"), "tt-suggestion");
+    assert.equal(find(".tt-suggestion:eq(2)").attr("class").trim(), "tt-suggestion");
   });
   triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
   andThen(function() {
-    assert.equal(find(".tt-suggestion:eq(0)").attr("class"), "tt-suggestion");
-    assert.equal(find(".tt-suggestion:eq(1)").attr("class"), "tt-suggestion");
+    assert.equal(find(".tt-suggestion:eq(0)").attr("class").trim(), "tt-suggestion");
+    assert.equal(find(".tt-suggestion:eq(1)").attr("class").trim(), "tt-suggestion");
     assert.equal(find(".tt-suggestion:eq(2)").attr("class"), "tt-suggestion tt-cursor");
   });
   triggerEvent("input.typeahead", "keydown", { keyCode: 38 });
   andThen(function() {
-    assert.equal(find(".tt-suggestion:eq(0)").attr("class"), "tt-suggestion");
+    assert.equal(find(".tt-suggestion:eq(0)").attr("class").trim(), "tt-suggestion");
     assert.equal(find(".tt-suggestion:eq(1)").attr("class"), "tt-suggestion tt-cursor");
-    assert.equal(find(".tt-suggestion:eq(2)").attr("class"), "tt-suggestion");
+    assert.equal(find(".tt-suggestion:eq(2)").attr("class").trim(), "tt-suggestion");
   });
 });
 

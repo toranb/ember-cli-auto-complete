@@ -10,7 +10,7 @@ export default Ember.Component.extend({
         this.set("visibility", "display:none;");
     }else if(this.escapedChars.indexOf(event.keyCode) === -1){
         this.set("visibility", "display:block;");
-        this.set("inputVal", $(event.target).val());
+        this.set("inputVal", Ember.$(event.target).val());
     }
   },
   focusIn: function(){
