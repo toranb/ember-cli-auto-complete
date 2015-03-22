@@ -267,3 +267,14 @@ test("arrow down and then the enter key will set value using the original/raw in
     assert.equal(find(".tt-dropdown-menu").is(":hidden"), true);
   });
 });
+
+test("the input class will have typeahead and text-input along with configured class name", function(assert) {
+  visit("/");
+  andThen(function() {
+    var input = find("input");
+    assert.ok(input.hasClass("typeahead"));
+    assert.ok(input.hasClass("text-input"));
+    assert.ok(input.hasClass("my-fun-input-thing"));
+    assert.ok(input.hasClass("andTwo"));
+  });
+});

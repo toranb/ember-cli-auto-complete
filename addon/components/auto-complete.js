@@ -5,6 +5,9 @@ export default Ember.Component.extend({
   hightlightIndex: -1,
   escapedChars: [40, 38, 13],
   visibility: "display:none;",
+  inputClazz: function() {
+    return "typeahead text-input " + this.get('inputClass');
+  }.property(),
   keyUp: function(event){
     if(event.keyCode === 27) {
         this.set("visibility", "display:none;");

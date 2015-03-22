@@ -48,7 +48,7 @@ export default AutoComplete.extend({
 Next add the component to your template including a block with html for the options (requires ember 1.11)
 
 ```js
-{{#my-auto-complete options=codes selectedValue=model.code placeHolderText="Find a thing" noMesssagePlaceHolderText="No things are found" as |result|}}
+{{#my-auto-complete options=codes inputClass="foobar" selectedValue=model.code placeHolderText="Find a thing" noMesssagePlaceHolderText="No things are found" as |result|}}
   <p><b>{{result.code}}</b>{{result.text}}</p>
 {{/my-auto-complete}}
 ```
