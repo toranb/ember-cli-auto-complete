@@ -6,6 +6,10 @@
 
 [ember-cli][] addon that provides type-ahead selection for text inputs
 
+## Demo
+
+http://emberjs.jsbin.com/becaha/2/
+
 ## Installation
 
 ```
