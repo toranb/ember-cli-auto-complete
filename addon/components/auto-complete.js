@@ -86,6 +86,8 @@ export default Ember.Component.extend({
       var valueProperty = this.get("valueProperty");
       this.set("selectedFromList", true);
       this.set("selectedValue", item.get(valueProperty));
+
+      this.sendAction('selectItem', item);
     }
   }
 });

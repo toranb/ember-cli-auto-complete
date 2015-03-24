@@ -81,6 +81,35 @@ export default Ember.Route.extend({
 });
 ```
 
+##  Handling item selected
+
+If you would like to call an action every time an elements is
+selected just bind the action through the attribute `selectItem`.
+
+```js
+{{#my-auto-complete
+   options=codes
+   selectedValue=model.code
+   placeHolderText="Find a thing"
+   inputClass="my-fun-input-thing andTwo"
+   noMesssagePlaceHolderText="No things are found"
+   selectItem="itemSelected" as |result|}}
+   <p><b>{{result.code}}</b>{{result.text}}</p>
+{{/my-auto-complete}}
+<p class="selection">{{controller.selection}}</p>
+```
+
+In the example above the action `itemSelected` will be called with the
+selected `item`, bubbling through your routes and controllers.
+
+```js
+  actions: {
+    itemSelected: function(item) {
+      this.get('controller').set('selection', item.get('code'));
+    }
+  }
+```
+
 ## Running the unit tests
 
     npm install

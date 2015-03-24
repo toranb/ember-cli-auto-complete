@@ -2,6 +2,13 @@ Code: <h2>{{model.code}}</h2>
 
 <br />
 
-{{#my-auto-complete options=codes selectedValue=model.code placeHolderText="Find a thing" inputClass="my-fun-input-thing andTwo" noMesssagePlaceHolderText="No things are found" as |result|}}
+{{#my-auto-complete
+   options=codes
+   selectedValue=model.code
+   placeHolderText="Find a thing"
+   inputClass="my-fun-input-thing andTwo"
+   noMesssagePlaceHolderText="No things are found"
+   selectItem="itemSelected" as |result|}}
   <p><b>{{result.code}}</b>{{result.text}}</p>
 {{/my-auto-complete}}
+<p class="selection">{{controller.selection}}</p>
