@@ -126,6 +126,20 @@ test("clicking a value from the options will set value", function(assert) {
   });
 });
 
+test("selecting an item bubbles up select action", function(assert) {
+  visit("/");
+  click("input.typeahead");
+  andThen(function() {
+    assert.equal(find(".tt-suggestion").length, 14);
+  });
+  triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
+  triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
+  click(".tt-suggestion:eq(1)");
+  andThen(function() {
+    assert.equal(find(".selection").text(), "ABD");
+  });
+});
+
 test("arrow down and then the enter key will set value the correct value and hide the options", function(assert) {
   visit("/");
   click("input.typeahead");
