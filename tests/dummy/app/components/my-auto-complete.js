@@ -7,7 +7,7 @@ export default AutoComplete.extend({
       return this.get("options").filter(function(item) {
           return item.get("code").toLowerCase().indexOf(inputVal.toLowerCase()) > -1;
       });
-  }.property("inputVal", "options.@each"),
+  }.property("inputVal", "options.[]"),
   optionsToMatch: function() {
       var caseInsensitiveOptions = [];
       this.get("options").forEach(function(item) {
@@ -16,5 +16,5 @@ export default AutoComplete.extend({
           caseInsensitiveOptions.push(value.toLowerCase());
       });
       return caseInsensitiveOptions;
-  }.property("options.@each")
+  }.property("options.[]")
 });
