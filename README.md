@@ -23,14 +23,14 @@ First add a custom component that extends AutoComplete. In this component you ne
 ```
 1) suggestions:    this computed will determine how the list of options is filtered as the user enters text
 2) optionsToMatch: this computed will determine if the value entered is valid (when the user omits to click/enter/tab the selection)
-3) valueProperty:  this string should be the value property for the options passed in (think selectbox value/label)
+3) optionLabelPath:  this string should be the value property for the options passed in (think selectbox value/label)
 ```
 
 ```js
 import AutoComplete from "ember-cli-auto-complete/components/auto-complete";
 
 export default AutoComplete.extend({
-  valueProperty: "code",
+  optionLabelPath: "code",
   suggestions: function() {
       var inputVal = this.get("inputVal") || "";
       return this.get("options").filter(function(item) {

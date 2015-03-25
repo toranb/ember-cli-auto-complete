@@ -1,7 +1,7 @@
 import AutoComplete from "ember-cli-auto-complete/components/auto-complete";
 
 export default AutoComplete.extend({
-  valueProperty: "code",
+  optionLabelPath: "code",
   suggestions: function() {
       var inputVal = this.get("inputVal") || "";
       return this.get("options").filter(function(item) {

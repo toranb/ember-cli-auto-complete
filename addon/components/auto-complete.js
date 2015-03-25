@@ -83,9 +83,9 @@ export default Ember.Component.extend({
   },
   actions: {
     selectItem: function(item){
-      var valueProperty = this.get("valueProperty");
+      var optionLabelPath = this.get("optionLabelPath");
       this.set("selectedFromList", true);
-      this.set("selectedValue", item.get(valueProperty));
+      this.set("selectedValue", item.get(optionLabelPath));
 
       this.sendAction('selectItem', item);
     }
