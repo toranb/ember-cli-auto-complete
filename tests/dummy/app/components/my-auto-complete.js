@@ -1,14 +1,15 @@
+import Ember from 'ember';
 import AutoComplete from "ember-cli-auto-complete/components/auto-complete";
 
 export default AutoComplete.extend({
   valueProperty: "code",
-  suggestions: function() {
+  suggestions: Ember.computed("inputVal", "options.[]", function() {
       var inputVal = this.get("inputVal") || "";
       return this.get("options").filter(function(item) {
           return item.get("code").toLowerCase().indexOf(inputVal.toLowerCase()) > -1;
       });
-  }.property("inputVal", "options.@each"),
-  optionsToMatch: function() {
+  }),
+  optionsToMatch: Ember.computed("options.[]", function() {
       var caseInsensitiveOptions = [];
       this.get("options").forEach(function(item) {
           var value = item.get("code");
@@ -16,5 +17,5 @@ export default AutoComplete.extend({
           caseInsensitiveOptions.push(value.toLowerCase());
       });
       return caseInsensitiveOptions;
-  }.property("options.@each")
+  })
 });
