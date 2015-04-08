@@ -4,7 +4,7 @@
 
 ## Description
 
-[ember-cli][] addon that provides type-ahead selection for text inputs
+[ember-cli][] addon that provides type-ahead selection for text inputs (requires ember.js 1.11+)
 
 ## Demo
 
