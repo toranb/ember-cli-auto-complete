@@ -292,3 +292,22 @@ test("the input class will have typeahead and text-input along with configured c
     assert.ok(input.hasClass("andTwo"));
   });
 });
+
+test("typing into the input with an invalid value and doing onblur will reset the input filter value", function(assert) {
+  visit("/");
+  click("input.typeahead");
+  andThen(function() {
+    assert.equal(find(".tt-suggestion").length, 14);
+  });
+  fillIn("input.typeahead", "AB");
+  triggerEvent("input.typeahead", "keyup", { keyCode: 65 });
+  triggerEvent("input.typeahead", "keyup", { keyCode: 66 });
+  andThen(function() {
+    assert.equal(find(".tt-suggestion").length, 3);
+  });
+  triggerEvent("input.typeahead", "blur");
+  click("input.typeahead");
+  andThen(function() {
+    assert.equal(find(".tt-suggestion").length, 14);
+  });
+});

@@ -1,5 +1,7 @@
 import Ember from "ember";
 
+var focusOutEvent;
+
 export default Ember.Component.extend({
   layoutName: "components/auto-complete",
   hightlightIndex: -1,
@@ -23,6 +25,7 @@ export default Ember.Component.extend({
       }
   },
   focusOut: function(){
+    clearTimeout(focusOutEvent);
     var self = this;
     var func = function(){
         if(self.isDestroyed) {
@@ -33,11 +36,12 @@ export default Ember.Component.extend({
             var value = this.get("selectedValue");
             var optionsToMatch = this.get("optionsToMatch");
             if (optionsToMatch.indexOf(value) === -1) {
+                self.set("inputVal", "");
                 self.set("selectedValue", "");
             }
         }
     };
-    Ember.run.later(this, func, 100);
+    focusOutEvent = Ember.run.later(this, func, 100);
   },
   keyDown: function(event){
       if(this.get("visibility") !== "display:none;"){
