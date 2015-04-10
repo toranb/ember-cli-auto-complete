@@ -8,7 +8,7 @@
 
 ## Demo
 
-http://emberjs.jsbin.com/becaha/2/
+http://emberjs.jsbin.com/niluhaloke/1
 
 ## Installation
 
