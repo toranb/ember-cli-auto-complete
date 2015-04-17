@@ -41,7 +41,7 @@ export default Ember.Component.extend({
             }
         }
     };
-    focusOutEvent = Ember.run.later(this, func, 100);
+    focusOutEvent = Ember.run.later(this, func, 200);
   },
   keyDown: function(event){
       if(this.get("visibility") !== "display:none;"){
