@@ -13,15 +13,15 @@ export default Ember.Component.extend({
   }),
   keyUp: function(event){
     if(event.keyCode === 27) {
-        this.set("visibility", "display:none;");
+        this.set("visibility", "display:none;".htmlSafe());
     }else if(this.escapedChars.indexOf(event.keyCode) === -1){
-        this.set("visibility", "display:block;");
+        this.set("visibility", "display:block;".htmlSafe());
         this.set("inputVal", Ember.$(event.target).val());
     }
   },
   focusIn: function(){
       if( this.get("visibility") === "display:none;"){
-        this.set("visibility", "display:block;");
+        this.set("visibility", "display:block;".htmlSafe());
       }
   },
   focusOut: function(){
@@ -52,18 +52,18 @@ export default Ember.Component.extend({
           }else if(event.keyCode === 13 || event.keyCode === 9){
             if(!Ember.isBlank(this.selectableSuggestion)){
               this.send("selectItem", this.selectableSuggestion);
-              this.set("visibility", "display:none;");
+              this.set("visibility", "display:none;".htmlSafe());
             }else{
                 var value = this.get("selectedValue");
                 var optionsToMatch = this.get("optionsToMatch");
                 if (optionsToMatch.indexOf(value) >= 0) {
                   this.set("selectedFromList", true);
-                  this.set("visibility", "display:none;");
+                  this.set("visibility", "display:none;".htmlSafe());
                 }
             }
           }
       }else{
-        this.set("visibility", "display:block;");
+        this.set("visibility", "display:block;".htmlSafe());
       }
   },
   highlight: function(direction) {
