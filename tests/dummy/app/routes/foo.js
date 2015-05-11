@@ -5,7 +5,7 @@ var Bar = Ember.Object.extend({code: ""});
 
 export default Ember.Route.extend({
   model: function() {
-    var codes = [];
+    var codes = Ember.A([]);
     codes.pushObject(Foo.create({code: "ABC", text: "SOMETHING 1"}));
     codes.pushObject(Foo.create({code: "ABD", text: "SOMETHING 2"}));
     codes.pushObject(Foo.create({code: "ABZ", text: "SOMETHING 3"}));

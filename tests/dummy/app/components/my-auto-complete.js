@@ -5,9 +5,10 @@ export default AutoComplete.extend({
   valueProperty: "code",
   suggestions: Ember.computed("inputVal", "options.[]", function() {
       var inputVal = this.get("inputVal") || "";
-      return this.get("options").filter(function(item) {
+      var list = this.get("options").filter(function(item) {
           return item.get("code").toLowerCase().indexOf(inputVal.toLowerCase()) > -1;
       });
+      return Ember.A(list);
   }),
   optionsToMatch: Ember.computed("options.[]", function() {
       var caseInsensitiveOptions = [];
