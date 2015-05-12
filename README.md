@@ -8,7 +8,7 @@
 
 ## Demo
 
-http://emberjs.jsbin.com/domuvo/1
+http://emberjs.jsbin.com/domuvo/2/
 
 ## Installation
 
