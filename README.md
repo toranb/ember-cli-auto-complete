@@ -8,7 +8,7 @@
 
 ## Demo
 
-http://emberjs.jsbin.com/domuvo/2/
+http://emberjs.jsbin.com/hohegogizi/1/
 
 ## Installation
 
