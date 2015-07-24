@@ -4,6 +4,18 @@ import startApp from '../helpers/start-app';
 
 var application;
 
+const BACKSPACE = { keyCode: 8 };
+const TAB = { keyCode: 9 };
+const ENTER = { keyCode: 13 };
+const ESCAPE = { keyCode: 27 };
+const UP_ARROW = { keyCode: 38 };
+const DOWN_ARROW = { keyCode: 40 };
+const LETTER_A = { keyCode: 65 };
+const LETTER_B = { keyCode: 66 };
+const LETTER_C = { keyCode: 67 };
+const LETTER_X = { keyCode: 88 };
+const LETTER_Z = { keyCode: 90 };
+
 module('Acceptance: EndToEnd', {
   beforeEach: function() {
     application = startApp();
@@ -41,7 +53,7 @@ test("escape will hide the options when they are showing", function(assert) {
   andThen(function() {
     assert.equal(find(".tt-dropdown-menu").is(":hidden"), false);
   });
-  triggerEvent("input.typeahead", "keyup", { keyCode: 27 });
+  triggerEvent("input.typeahead", "keyup", ESCAPE);
   andThen(function() {
     assert.equal(find(".tt-dropdown-menu").is(":hidden"), true);
   });
@@ -51,9 +63,9 @@ test("typing into the input with a valid value and doing onblur will set value",
   visit("/");
   click("input.typeahead");
   fillIn("input.typeahead", "ABC");
-  triggerEvent("input.typeahead", "keyup", { keyCode: 65 });
-  triggerEvent("input.typeahead", "keyup", { keyCode: 66 });
-  triggerEvent("input.typeahead", "keyup", { keyCode: 67 });
+  triggerEvent("input.typeahead", "keyup", LETTER_A);
+  triggerEvent("input.typeahead", "keyup", LETTER_B);
+  triggerEvent("input.typeahead", "keyup", LETTER_C);
   andThen(function() {
     assert.equal(find(".tt-suggestion").length, 1);
   });
@@ -67,8 +79,8 @@ test("typing into the input with an invalid value and doing onblur will not set 
   visit("/");
   click("input.typeahead");
   fillIn("input.typeahead", "AB");
-  triggerEvent("input.typeahead", "keyup", { keyCode: 65 });
-  triggerEvent("input.typeahead", "keyup", { keyCode: 66 });
+  triggerEvent("input.typeahead", "keyup", LETTER_A);
+  triggerEvent("input.typeahead", "keyup", LETTER_B);
   andThen(function() {
     assert.equal(find(".tt-suggestion").length, 3);
   });
@@ -82,14 +94,14 @@ test("typing into the input with a valid value and hitting enter will set value"
   visit("/");
   click("input.typeahead");
   fillIn("input.typeahead", "ABC");
-  triggerEvent("input.typeahead", "keyup", { keyCode: 65 });
-  triggerEvent("input.typeahead", "keyup", { keyCode: 66 });
-  triggerEvent("input.typeahead", "keyup", { keyCode: 67 });
+  triggerEvent("input.typeahead", "keyup", LETTER_A);
+  triggerEvent("input.typeahead", "keyup", LETTER_B);
+  triggerEvent("input.typeahead", "keyup", LETTER_C);
   andThen(function() {
     assert.equal(find(".tt-suggestion").length, 1);
     assert.equal(find(".tt-dropdown-menu").is(":hidden"), false);
   });
-  triggerEvent("input.typeahead", "keyup", { keyCode: 13 });
+  triggerEvent("input.typeahead", "keyup", ENTER);
   andThen(function() {
     assert.equal(find("input.typeahead").val(), "ABC");
   });
@@ -99,12 +111,12 @@ test("typing into the input with an invalid value and hitting enter will not set
   visit("/");
   click("input.typeahead");
   fillIn("input.typeahead", "AB");
-  triggerEvent("input.typeahead", "keyup", { keyCode: 65 });
-  triggerEvent("input.typeahead", "keyup", { keyCode: 66 });
+  triggerEvent("input.typeahead", "keyup", LETTER_A);
+  triggerEvent("input.typeahead", "keyup", LETTER_B);
   andThen(function() {
     assert.equal(find(".tt-suggestion").length, 3);
   });
-  triggerEvent("input.typeahead", "keyup", { keyCode: 13 });
+  triggerEvent("input.typeahead", "keyup", ENTER);
   triggerEvent("input.typeahead", "blur");
   andThen(function() {
     assert.equal(find("input.typeahead").val(), "");
@@ -118,8 +130,8 @@ test("clicking a value from the options will set value", function(assert) {
   andThen(function() {
     assert.equal(find(".tt-suggestion").length, 14);
   });
-  triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
-  triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
+  triggerEvent("input.typeahead", "keydown", DOWN_ARROW);
+  triggerEvent("input.typeahead", "keydown", DOWN_ARROW);
   click(".tt-suggestion:eq(1)");
   andThen(function() {
     assert.equal(find("input.typeahead").val(), "ABD");
@@ -132,8 +144,8 @@ test("selecting an item bubbles up select action", function(assert) {
   andThen(function() {
     assert.equal(find(".tt-suggestion").length, 14);
   });
-  triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
-  triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
+  triggerEvent("input.typeahead", "keydown", DOWN_ARROW);
+  triggerEvent("input.typeahead", "keydown", DOWN_ARROW);
   click(".tt-suggestion:eq(1)");
   andThen(function() {
     assert.equal(find(".selection").text(), "ABD");
@@ -146,10 +158,10 @@ test("arrow down and then the enter key will set value the correct value and hid
   andThen(function() {
     assert.equal(find(".tt-suggestion").length, 14);
   });
-  triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
-  triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
-  triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
-  triggerEvent("input.typeahead", "keydown", { keyCode: 13 });
+  triggerEvent("input.typeahead", "keydown", DOWN_ARROW);
+  triggerEvent("input.typeahead", "keydown", DOWN_ARROW);
+  triggerEvent("input.typeahead", "keydown", DOWN_ARROW);
+  triggerEvent("input.typeahead", "keydown", ENTER);
   andThen(function() {
     assert.equal(find("input.typeahead").val(), "ABZ");
     assert.equal(find(".tt-dropdown-menu").is(":hidden"), true);
@@ -162,10 +174,10 @@ test("arrow down and then the tab key will set value the correct value and hide 
   andThen(function() {
     assert.equal(find(".tt-suggestion").length, 14);
   });
-  triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
-  triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
-  triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
-  triggerEvent("input.typeahead", "keydown", { keyCode: 9 });
+  triggerEvent("input.typeahead", "keydown", DOWN_ARROW);
+  triggerEvent("input.typeahead", "keydown", DOWN_ARROW);
+  triggerEvent("input.typeahead", "keydown", DOWN_ARROW);
+  triggerEvent("input.typeahead", "keydown", TAB);
   andThen(function() {
     assert.equal(find("input.typeahead").val(), "ABZ");
     assert.equal(find(".tt-dropdown-menu").is(":hidden"), true);
@@ -175,25 +187,25 @@ test("arrow down and then the tab key will set value the correct value and hide 
 test("arrow down and up will highlight the next option and unhighlight the previous", function(assert) {
   visit("/");
   click("input.typeahead");
-  triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
+  triggerEvent("input.typeahead", "keydown", DOWN_ARROW);
   andThen(function() {
     assert.equal(find(".tt-suggestion:eq(0)").attr("class"), "tt-suggestion tt-cursor");
     assert.equal(find(".tt-suggestion:eq(1)").attr("class").trim(), "tt-suggestion");
     assert.equal(find(".tt-suggestion:eq(2)").attr("class").trim(), "tt-suggestion");
   });
-  triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
+  triggerEvent("input.typeahead", "keydown", DOWN_ARROW);
   andThen(function() {
     assert.equal(find(".tt-suggestion:eq(0)").attr("class").trim(), "tt-suggestion");
     assert.equal(find(".tt-suggestion:eq(1)").attr("class"), "tt-suggestion tt-cursor");
     assert.equal(find(".tt-suggestion:eq(2)").attr("class").trim(), "tt-suggestion");
   });
-  triggerEvent("input.typeahead", "keydown", { keyCode: 40 });
+  triggerEvent("input.typeahead", "keydown", DOWN_ARROW);
   andThen(function() {
     assert.equal(find(".tt-suggestion:eq(0)").attr("class").trim(), "tt-suggestion");
     assert.equal(find(".tt-suggestion:eq(1)").attr("class").trim(), "tt-suggestion");
     assert.equal(find(".tt-suggestion:eq(2)").attr("class"), "tt-suggestion tt-cursor");
   });
-  triggerEvent("input.typeahead", "keydown", { keyCode: 38 });
+  triggerEvent("input.typeahead", "keydown", BACKSPACE);
   andThen(function() {
     assert.equal(find(".tt-suggestion:eq(0)").attr("class").trim(), "tt-suggestion");
     assert.equal(find(".tt-suggestion:eq(1)").attr("class"), "tt-suggestion tt-cursor");
@@ -208,17 +220,17 @@ test("typing into the input will show options matching the filter applied", func
     assert.equal(find(".tt-suggestion").length, 14);
   });
   fillIn("input.typeahead", "A");
-  triggerEvent("input.typeahead", "keyup", { keyCode: 65 });
+  triggerEvent("input.typeahead", "keyup", LETTER_A);
   andThen(function() {
     assert.equal(find(".tt-suggestion").length, 4);
   });
   fillIn("input.typeahead", "AB");
-  triggerEvent("input.typeahead", "keyup", { keyCode: 66 });
+  triggerEvent("input.typeahead", "keyup", LETTER_B);
   andThen(function() {
     assert.equal(find(".tt-suggestion").length, 3);
   });
   fillIn("input.typeahead", "ABC");
-  triggerEvent("input.typeahead", "keyup", { keyCode: 67 });
+  triggerEvent("input.typeahead", "keyup", LETTER_C);
   andThen(function() {
     assert.equal(find(".tt-suggestion").length, 1);
   });
@@ -235,7 +247,7 @@ test("typing into the input will show no matching message when filter does not m
     assert.equal(find(".tt-suggestion").length, 14);
   });
   fillIn("input.typeahead", "X");
-  triggerEvent("input.typeahead", "keyup", { keyCode: 88 });
+  triggerEvent("input.typeahead", "keyup", LETTER_X);
   andThen(function() {
     assert.equal(find(".tt-suggestion").length, 0);
     assert.equal(find(".tt-dropdown-menu .message").text().trim(), "No things are found");
@@ -249,17 +261,17 @@ test("typing a value that matches based on filter is set using the original/raw 
     assert.equal(find(".tt-suggestion").length, 14);
   });
   fillIn("input.typeahead", "a");
-  triggerEvent("input.typeahead", "keyup", { keyCode: 65 });
+  triggerEvent("input.typeahead", "keyup", LETTER_A);
   andThen(function() {
     assert.equal(find(".tt-suggestion").length, 4);
   });
   fillIn("input.typeahead", "ab");
-  triggerEvent("input.typeahead", "keyup", { keyCode: 66 });
+  triggerEvent("input.typeahead", "keyup", LETTER_B);
   andThen(function() {
     assert.equal(find(".tt-suggestion").length, 3);
   });
   fillIn("input.typeahead", "abc");
-  triggerEvent("input.typeahead", "keyup", { keyCode: 67 });
+  triggerEvent("input.typeahead", "keyup", LETTER_C);
   andThen(function() {
     assert.equal(find(".tt-suggestion").length, 1);
   });
@@ -272,10 +284,10 @@ test("typing a value that matches based on filter is set using the original/raw 
 test("arrow down and then the enter key will set value using the original/raw input value and hide options", function(assert) {
   visit("/");
   fillIn("input.typeahead", "abc");
-  triggerEvent("input.typeahead", "keyup", { keyCode: 65 });
-  triggerEvent("input.typeahead", "keyup", { keyCode: 66 });
-  triggerEvent("input.typeahead", "keyup", { keyCode: 67 });
-  triggerEvent("input.typeahead", "keydown", { keyCode: 13 });
+  triggerEvent("input.typeahead", "keyup", LETTER_A);
+  triggerEvent("input.typeahead", "keyup", LETTER_B);
+  triggerEvent("input.typeahead", "keyup", LETTER_C);
+  triggerEvent("input.typeahead", "keydown", ENTER);
   andThen(function() {
     assert.equal(find("input.typeahead").val(), "abc");
     assert.equal(find(".tt-dropdown-menu").is(":hidden"), true);
@@ -300,8 +312,8 @@ test("typing into the input with an invalid value and doing onblur will reset th
     assert.equal(find(".tt-suggestion").length, 14);
   });
   fillIn("input.typeahead", "AB");
-  triggerEvent("input.typeahead", "keyup", { keyCode: 65 });
-  triggerEvent("input.typeahead", "keyup", { keyCode: 66 });
+  triggerEvent("input.typeahead", "keyup", LETTER_A);
+  triggerEvent("input.typeahead", "keyup", LETTER_B);
   andThen(function() {
     assert.equal(find(".tt-suggestion").length, 3);
   });
@@ -309,5 +321,39 @@ test("typing into the input with an invalid value and doing onblur will reset th
   click("input.typeahead");
   andThen(function() {
     assert.equal(find(".tt-suggestion").length, 14);
+  });
+});
+
+test("typing in input field will reset highlights to prevent hidden highlights and defects", function (assert) {
+  visit("/");
+
+  click("input.typeahead");
+
+  fillIn("input.typeahead", "A");
+  triggerEvent("input.typeahead", "keyup", LETTER_A);
+  triggerEvent("input.typeahead", "keydown", DOWN_ARROW);
+  triggerEvent("input.typeahead", "keydown", DOWN_ARROW);
+  andThen(function() {
+    assert.equal(find(".tt-suggestion:eq(0)").attr("class").trim(), "tt-suggestion");
+    assert.equal(find(".tt-suggestion:eq(1)").attr("class").trim(), "tt-suggestion tt-cursor");
+  });
+
+  fillIn("input.typeahead", "ABZ");
+  triggerEvent("input.typeahead", "keyup", LETTER_B);
+  triggerEvent("input.typeahead", "keyup", LETTER_Z);
+  triggerEvent("input.typeahead", "keydown", DOWN_ARROW);
+  andThen(function() {
+    assert.equal(find(".tt-suggestion:eq(0)").attr("class").trim(), "tt-suggestion tt-cursor");
+  });
+
+  fillIn("input.typeahead", "A");
+  triggerEvent("input.typeahead", "keyup", BACKSPACE);
+  triggerEvent("input.typeahead", "keyup", BACKSPACE);
+  andThen(function () {
+    assert.equal(find(".tt-suggestion").length, 4);
+    assert.equal(find(".tt-suggestion:eq(0)").attr("class").trim(), "tt-suggestion");
+    assert.equal(find(".tt-suggestion:eq(1)").attr("class").trim(), "tt-suggestion");
+    assert.equal(find(".tt-suggestion:eq(2)").attr("class").trim(), "tt-suggestion");
+    assert.equal(find(".tt-suggestion:eq(3)").attr("class").trim(), "tt-suggestion");
   });
 });

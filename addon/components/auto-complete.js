@@ -16,6 +16,10 @@ export default Ember.Component.extend({
     if(event.keyCode === 27) {
         this.set("visibility", htmlSafe("display:none;"));
     }else if(this.escapedChars.indexOf(event.keyCode) === -1){
+        this.set("hightlightIndex", -1);
+        this.get("options").forEach(function (item) {
+          item.set("highlight", false);
+        });
         this.set("visibility", htmlSafe("display:block;"));
         this.set("inputVal", Ember.$(event.target).val());
     }
