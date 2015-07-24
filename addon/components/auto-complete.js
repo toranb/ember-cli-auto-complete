@@ -16,10 +16,14 @@ function getNewHighlightIndex(direction, index, length) {
   return index;
 }
 
-function keepHighlightInView() {
+function keepHighlightInView(event) {
   var highlighted = document.getElementsByClassName("tt-cursor")[0];
   if (highlighted) {
-    highlighted.scrollIntoView(false);
+    if (KeyCodes.keyPressed(event) === "downArrow") {
+      highlighted.scrollIntoView(false);
+    } else if (KeyCodes.keyPressed(event) === "upArrow") {
+      highlighted.scrollIntoView();
+    }
   }
 }
 export default Ember.Component.extend({
@@ -41,7 +45,7 @@ export default Ember.Component.extend({
       this.set("visibility", htmlSafe(VISIBLE));
       this.set("inputVal", Ember.$(event.target).val());
     }
-    keepHighlightInView();
+    keepHighlightInView(event);
   },
   focusIn: function () {
     if (this.get("visibility") === HIDDEN) {
