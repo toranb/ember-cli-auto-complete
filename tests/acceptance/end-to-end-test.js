@@ -13,6 +13,7 @@ const DOWN_ARROW = { keyCode: 40 };
 const LETTER_A = { keyCode: 65 };
 const LETTER_B = { keyCode: 66 };
 const LETTER_C = { keyCode: 67 };
+const LETTER_N = { keyCode: 78 };
 const LETTER_X = { keyCode: 88 };
 const LETTER_Z = { keyCode: 90 };
 
@@ -357,3 +358,32 @@ test("typing in input field will reset highlights to prevent hidden highlights a
     assert.equal(find(".tt-suggestion:eq(3)").attr("class").trim(), "tt-suggestion");
   });
 });
+
+test("once highlight exists in list; it can not be moved to an index out of range", function (assert) {
+  visit("/");
+
+  click("input.typeahead");
+
+  fillIn("input.typeahead", "N");
+  triggerEvent("input.typeahead", "keyup", LETTER_N);
+  triggerEvent("input.typeahead", "keydown", DOWN_ARROW);
+  andThen(function() {
+    assert.equal(find(".tt-suggestion").length, 2);
+    assert.equal(find(".tt-suggestion:eq(0)").attr("class").trim(), "tt-suggestion tt-cursor");
+    assert.equal(find(".tt-suggestion:eq(1)").attr("class").trim(), "tt-suggestion");
+  });
+  triggerEvent("input.typeahead", "keydown", DOWN_ARROW);
+  triggerEvent("input.typeahead", "keydown", DOWN_ARROW);
+  andThen(function() {
+    assert.equal(find(".tt-suggestion:eq(0)").attr("class").trim(), "tt-suggestion");
+    assert.equal(find(".tt-suggestion:eq(1)").attr("class").trim(), "tt-suggestion tt-cursor");
+  });
+  triggerEvent("input.typeahead", "keydown", UP_ARROW);
+  triggerEvent("input.typeahead", "keydown", UP_ARROW);
+  andThen(function() {
+    assert.equal(find(".tt-suggestion:eq(0)").attr("class").trim(), "tt-suggestion tt-cursor");
+    assert.equal(find(".tt-suggestion:eq(1)").attr("class").trim(), "tt-suggestion");
+  });
+});
+
+//TODO: allow list to scroll when down arrow/up arrow move out of sight

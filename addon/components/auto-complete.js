@@ -7,10 +7,6 @@ var focusOutEvent;
 const VISIBLE = "display:block;";
 const HIDDEN = "display:none;";
 
-function canUpdateList(index, length) {
-  return index >= 0 && index < length;
-}
-
 function getNewHighlightIndex(direction, index, length) {
   if (direction === "down" && index < length - 1) {
     return index + 1;
@@ -93,16 +89,14 @@ export default Ember.Component.extend({
     var currentHighlight = this.get("highlightIndex");
     var nextHighlight = getNewHighlightIndex(direction, currentHighlight, length);
 
-    if (canUpdateList(currentHighlight, length)) {
+    if (currentHighlight >= 0) {
       this.get("suggestions").objectAt(currentHighlight).set("highlight", false);
     }
 
-    if (canUpdateList(nextHighlight, length)) {
-      var newSelectedItem = this.get("suggestions").objectAt(nextHighlight);
-      newSelectedItem.set("highlight", true);
-      this.set("selectableSuggestion", newSelectedItem);
-      this.set("highlightIndex", nextHighlight);
-    }
+    var newSelectedItem = this.get("suggestions").objectAt(nextHighlight);
+    newSelectedItem.set("highlight", true);
+    this.set("selectableSuggestion", newSelectedItem);
+    this.set("highlightIndex", nextHighlight);
 
   },
   actions: {
