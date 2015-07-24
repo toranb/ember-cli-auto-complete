@@ -16,6 +16,12 @@ function getNewHighlightIndex(direction, index, length) {
   return index;
 }
 
+function keepHighlightInView() {
+  var highlighted = document.getElementsByClassName("tt-cursor")[0];
+  if (highlighted) {
+    highlighted.scrollIntoView(false);
+  }
+}
 export default Ember.Component.extend({
   layoutName: "components/auto-complete",
   highlightIndex: -1,
@@ -35,6 +41,7 @@ export default Ember.Component.extend({
       this.set("visibility", htmlSafe(VISIBLE));
       this.set("inputVal", Ember.$(event.target).val());
     }
+    keepHighlightInView();
   },
   focusIn: function () {
     if (this.get("visibility") === HIDDEN) {
@@ -97,7 +104,6 @@ export default Ember.Component.extend({
     newSelectedItem.set("highlight", true);
     this.set("selectableSuggestion", newSelectedItem);
     this.set("highlightIndex", nextHighlight);
-
   },
   actions: {
     selectItem: function (item) {
