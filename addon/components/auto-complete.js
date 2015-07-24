@@ -17,6 +17,7 @@ function getNewHighlightIndex(direction, index, length) {
   } else if (direction === "up" && index > 0) {
     return index - 1;
   }
+  return index;
 }
 
 export default Ember.Component.extend({
@@ -30,7 +31,7 @@ export default Ember.Component.extend({
   keyUp: function (event) {
     if (KeyCodes.keyPressed(event) === "escape") {
       this.set("visibility", htmlSafe(HIDDEN));
-    } else if (KeyCodes.isEscapedCode(event)) {
+    } else if (!KeyCodes.isEscapedCode(event)) {
       this.set("highlightIndex", -1);
       this.get("options").forEach(function (item) {
         item.set("highlight", false);
@@ -69,7 +70,7 @@ export default Ember.Component.extend({
         this.highlight("down");
       } else if (KeyCodes.keyPressed(event) === "upArrow") {
         this.highlight("up");
-      } else if (KeyCodes.keyPressed(event) === "enter" || "tab") {
+      } else if (KeyCodes.keyPressed(event) === "enter" || KeyCodes.keyPressed(event) === "tab") {
         if (!Ember.isBlank(this.selectableSuggestion)) {
           this.send("selectItem", this.selectableSuggestion);
           this.set("visibility", htmlSafe(HIDDEN));

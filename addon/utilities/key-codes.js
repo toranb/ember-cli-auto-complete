@@ -8,10 +8,10 @@ var keyCodeList = [
 
 export default {
   isEscapedCode: function (event) {
-    var escapedCodes = keyCodeList.map(function (keyCode) {
-      return keyCode.escaped;
+    var filter = keyCodeList.filter(function (keyCode) {
+      return keyCode.code === event.keyCode && keyCode.escaped;
     });
-    return escapedCodes.indexOf(event.keyCode) === -1;
+    return filter.length;
   },
   keyPressed: function (event) {
     return keyCodeList.filter(function (keyCode) {
