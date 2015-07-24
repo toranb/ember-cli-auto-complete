@@ -205,7 +205,7 @@ test("arrow down and up will highlight the next option and unhighlight the previ
     assert.equal(find(".tt-suggestion:eq(1)").attr("class").trim(), "tt-suggestion");
     assert.equal(find(".tt-suggestion:eq(2)").attr("class"), "tt-suggestion tt-cursor");
   });
-  triggerEvent("input.typeahead", "keydown", BACKSPACE);
+  triggerEvent("input.typeahead", "keydown", UP_ARROW);
   andThen(function() {
     assert.equal(find(".tt-suggestion:eq(0)").attr("class").trim(), "tt-suggestion");
     assert.equal(find(".tt-suggestion:eq(1)").attr("class"), "tt-suggestion tt-cursor");
