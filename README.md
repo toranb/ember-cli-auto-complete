@@ -18,10 +18,10 @@ npm install ember-cli-auto-complete --save-dev
 
 ## How to use this component
 
-First add a custom component that extends AutoComplete. In this component you need to add 2 computed properties and 1 string variable.
+First add a custom component that extends AutoComplete. In this component you need to add 1 computed property, 1 function and 1 string variable.
 
 ```
-1) suggestions:    this computed will determine how the list of options is filtered as the user enters text
+1) determineSuggestions:    this function will determine how the list of options is filtered as the user enters text (it gets passed the available options and the users input)
 2) optionsToMatch: this computed will determine if the value entered is valid (when the user omits to click/enter/tab the selection)
 3) valueProperty:  this string should be the value property for the options passed in (think selectbox value/label)
 ```
