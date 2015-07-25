@@ -18,12 +18,11 @@ npm install ember-cli-auto-complete --save-dev
 
 ## How to use this component
 
-First add a custom component that extends AutoComplete. In this component you need to add 1 computed property, 1 function and 1 string variable.
+First add a custom component that extends AutoComplete. In this component you need to add 1 function and 1 string variable.
 
 ```
-1) determineSuggestions:    this function will determine how the list of options is filtered as the user enters text (it gets passed the available options and the users input)
-2) optionsToMatch: this computed will determine if the value entered is valid (when the user omits to click/enter/tab the selection)
-3) valueProperty:  this string should be the value property for the options passed in (think selectbox value/label)
+1) determineSuggestions: this function will determine how the list of options is filtered as the user enters text (it gets passed the available options and the users input)
+2) valueProperty: this string should be the value property for the options passed in (think selectbox value/label)
 ```
 
 ```js
@@ -31,21 +30,13 @@ import AutoComplete from "ember-cli-auto-complete/components/auto-complete";
 
 export default AutoComplete.extend({
   valueProperty: "code",
-  suggestions: function() {
-      var inputVal = this.get("inputVal") || "";
-      return this.get("options").filter(function(item) {
-          return item.get("code").toLowerCase().indexOf(inputVal.toLowerCase()) > -1;
+  determineSuggestions: function(options, input) {
+      var list = options.filter(function(item) {
+          return item.get("code").toLowerCase().indexOf(input.toLowerCase()) > -1;
       });
-  }.property("inputVal", "options.@each"),
-  optionsToMatch: function() {
-      var caseInsensitiveOptions = [];
-      this.get("options").forEach(function(item) {
-          var value = item.get("code");
-          caseInsensitiveOptions.push(value);
-          caseInsensitiveOptions.push(value.toLowerCase());
-      });
-      return caseInsensitiveOptions;
-  }.property("options.@each")
+
+      return Ember.A(list);
+  }
 });
 ```
 

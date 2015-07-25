@@ -59,13 +59,9 @@ export default Ember.Component.extend({
         return;
       }
       self.set("visibility", HIDDEN);
-      if (!self.get("selectedFromList")) {
-        var value = this.get("selectedValue").toLowerCase();
-        var optionsToMatch = this.get("optionsToMatch");
-        if (optionsToMatch.indexOf(value) === -1) {
-          self.set("inputVal", "");
-          self.set("selectedValue", "");
-        }
+      if (!self.get("selectedFromList") && !self.hasInputMatchingSuggestion()) {
+        self.set("inputVal", "");
+        self.set("selectedValue", "");
       }
     };
     focusOutEvent = Ember.run.later(this, func, 200);
@@ -80,13 +76,9 @@ export default Ember.Component.extend({
         if (!Ember.isBlank(this.selectableSuggestion)) {
           this.send("selectItem", this.selectableSuggestion);
           this.set("visibility", HIDDEN);
-        } else {
-          var value = this.get("selectedValue").toLowerCase();
-          var optionsToMatch = this.get("optionsToMatch");
-          if (optionsToMatch.indexOf(value) >= 0) {
-            this.set("selectedFromList", true);
-            this.set("visibility", HIDDEN);
-          }
+        } else if (this.hasInputMatchingSuggestion()) {
+          this.set("selectedFromList", true);
+          this.set("visibility", HIDDEN);
         }
       }
     } else {
@@ -114,6 +106,14 @@ export default Ember.Component.extend({
     newSelectedItem.set("highlight", true);
     this.set("selectableSuggestion", newSelectedItem);
     this.set("highlightIndex", nextHighlight);
+  },
+  hasInputMatchingSuggestion: function() {
+    var suggestions = this.get('suggestions');
+    var input = this.getWithDefault('selectedValue', '').toLowerCase();
+
+    if (suggestions.length !== 1) { return false; }
+
+    return input === suggestions[0].get(this.get('valueProperty')).toLowerCase();
   },
   actions: {
     selectItem: function (item) {

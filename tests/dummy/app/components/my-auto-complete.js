@@ -9,14 +9,5 @@ export default AutoComplete.extend({
       });
 
       return Ember.A(list);
-  },
-  optionsToMatch: Ember.computed("options.[]", function() {
-      var caseInsensitiveOptions = [];
-      this.get("options").forEach(function(item) {
-          var value = item.get("code");
-          caseInsensitiveOptions.push(value);
-          caseInsensitiveOptions.push(value.toLowerCase());
-      });
-      return caseInsensitiveOptions;
-  })
+  }
 });
