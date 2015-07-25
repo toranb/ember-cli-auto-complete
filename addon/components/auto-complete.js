@@ -60,7 +60,7 @@ export default Ember.Component.extend({
       }
       self.set("visibility", HIDDEN);
       if (!self.get("selectedFromList")) {
-        var value = this.get("selectedValue");
+        var value = this.get("selectedValue").toLowerCase();
         var optionsToMatch = this.get("optionsToMatch");
         if (optionsToMatch.indexOf(value) === -1) {
           self.set("inputVal", "");
@@ -81,7 +81,7 @@ export default Ember.Component.extend({
           this.send("selectItem", this.selectableSuggestion);
           this.set("visibility", HIDDEN);
         } else {
-          var value = this.get("selectedValue");
+          var value = this.get("selectedValue").toLowerCase();
           var optionsToMatch = this.get("optionsToMatch");
           if (optionsToMatch.indexOf(value) >= 0) {
             this.set("selectedFromList", true);
