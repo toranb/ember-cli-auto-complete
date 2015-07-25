@@ -1,11 +1,10 @@
 import Ember from "ember";
 import KeyCodes from '../utilities/key-codes';
 
-var htmlSafe = Ember.String.htmlSafe;
 var focusOutEvent;
 
-const VISIBLE = "display:block;";
-const HIDDEN = "display:none;";
+const VISIBLE = "visible";
+const HIDDEN = "hidden";
 
 function getNewHighlightIndex(direction, index, length) {
   if (direction === "down" && index < length - 1) {
@@ -36,20 +35,20 @@ export default Ember.Component.extend({
   }),
   keyUp: function (event) {
     if (KeyCodes.keyPressed(event) === "escape") {
-      this.set("visibility", htmlSafe(HIDDEN));
+      this.set("visibility", HIDDEN);
     } else if (!KeyCodes.isEscapedCode(event)) {
       this.set("highlightIndex", -1);
       this.get("options").forEach(function (item) {
         item.set("highlight", false);
       });
-      this.set("visibility", htmlSafe(VISIBLE));
+      this.set("visibility", VISIBLE);
       this.set("inputVal", Ember.$(event.target).val());
     }
     keepHighlightInView(event);
   },
   focusIn: function () {
     if (this.get("visibility") === HIDDEN) {
-      this.set("visibility", htmlSafe(VISIBLE));
+      this.set("visibility", VISIBLE);
     }
   },
   focusOut: function () {
@@ -80,18 +79,18 @@ export default Ember.Component.extend({
       } else if (KeyCodes.keyPressed(event) === "enter" || KeyCodes.keyPressed(event) === "tab") {
         if (!Ember.isBlank(this.selectableSuggestion)) {
           this.send("selectItem", this.selectableSuggestion);
-          this.set("visibility", htmlSafe(HIDDEN));
+          this.set("visibility", HIDDEN);
         } else {
           var value = this.get("selectedValue");
           var optionsToMatch = this.get("optionsToMatch");
           if (optionsToMatch.indexOf(value) >= 0) {
             this.set("selectedFromList", true);
-            this.set("visibility", htmlSafe(HIDDEN));
+            this.set("visibility", HIDDEN);
           }
         }
       }
     } else {
-      this.set("visibility", htmlSafe(VISIBLE));
+      this.set("visibility", VISIBLE);
     }
   },
 

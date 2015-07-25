@@ -26,7 +26,7 @@ html {
   color: #91acbc;
 }
 
-:-ms-input-placeholder {  
+:-ms-input-placeholder {
   color: #91acbc;
 }
 
@@ -54,6 +54,14 @@ input[type="text"] {
 .typeahead-wrap {
   display: block;
   position: relative;
+}
+
+.tt-dropdown-menu.hidden {
+  display: none;
+}
+
+.tt-dropdown-menu.visible {
+  display: block;
 }
 
 .tt-dropdown-menu {
