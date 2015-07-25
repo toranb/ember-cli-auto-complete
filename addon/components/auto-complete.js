@@ -1,94 +1,116 @@
 import Ember from "ember";
+import KeyCodes from '../utilities/key-codes';
 
 var htmlSafe = Ember.String.htmlSafe;
 var focusOutEvent;
 
+const VISIBLE = "display:block;";
+const HIDDEN = "display:none;";
+
+function getNewHighlightIndex(direction, index, length) {
+  if (direction === "down" && index < length - 1) {
+    return index + 1;
+  } else if (direction === "up" && index > 0) {
+    return index - 1;
+  }
+  return index;
+}
+
+function keepHighlightInView(event) {
+  var highlighted = document.getElementsByClassName("tt-cursor")[0];
+  if (highlighted) {
+    if (KeyCodes.keyPressed(event) === "downArrow") {
+      highlighted.scrollIntoView(false);
+    } else if (KeyCodes.keyPressed(event) === "upArrow") {
+      highlighted.scrollIntoView();
+    }
+  }
+}
 export default Ember.Component.extend({
   layoutName: "components/auto-complete",
-  hightlightIndex: -1,
-  escapedChars: [40, 38, 13],
-  visibility: "display:none;",
+  highlightIndex: -1,
+  visibility: HIDDEN,
   inputClass: '',
-  inputClazz: Ember.computed(function() {
+  inputClazz: Ember.computed(function () {
     return "typeahead text-input " + this.get('inputClass');
   }),
-  keyUp: function(event){
-    if(event.keyCode === 27) {
-        this.set("visibility", htmlSafe("display:none;"));
-    }else if(this.escapedChars.indexOf(event.keyCode) === -1){
-        this.set("visibility", htmlSafe("display:block;"));
-        this.set("inputVal", Ember.$(event.target).val());
+  keyUp: function (event) {
+    if (KeyCodes.keyPressed(event) === "escape") {
+      this.set("visibility", htmlSafe(HIDDEN));
+    } else if (!KeyCodes.isEscapedCode(event)) {
+      this.set("highlightIndex", -1);
+      this.get("options").forEach(function (item) {
+        item.set("highlight", false);
+      });
+      this.set("visibility", htmlSafe(VISIBLE));
+      this.set("inputVal", Ember.$(event.target).val());
+    }
+    keepHighlightInView(event);
+  },
+  focusIn: function () {
+    if (this.get("visibility") === HIDDEN) {
+      this.set("visibility", htmlSafe(VISIBLE));
     }
   },
-  focusIn: function(){
-      if( this.get("visibility") === "display:none;"){
-        this.set("visibility", htmlSafe("display:block;"));
-      }
-  },
-  focusOut: function(){
+  focusOut: function () {
     clearTimeout(focusOutEvent);
     var self = this;
-    var func = function(){
-        if(self.isDestroyed) {
-            return;
+    var func = function () {
+      if (self.isDestroyed) {
+        return;
+      }
+      self.set("visibility", HIDDEN);
+      if (!self.get("selectedFromList")) {
+        var value = this.get("selectedValue");
+        var optionsToMatch = this.get("optionsToMatch");
+        if (optionsToMatch.indexOf(value) === -1) {
+          self.set("inputVal", "");
+          self.set("selectedValue", "");
         }
-        self.set("visibility", "display:none;");
-        if(!self.get("selectedFromList")) {
-            var value = this.get("selectedValue");
-            var optionsToMatch = this.get("optionsToMatch");
-            if (optionsToMatch.indexOf(value) === -1) {
-                self.set("inputVal", "");
-                self.set("selectedValue", "");
-            }
-        }
+      }
     };
     focusOutEvent = Ember.run.later(this, func, 200);
   },
-  keyDown: function(event){
-      if(this.get("visibility") !== "display:none;"){
-          if (event.keyCode === 40){
-            this.highlight("down");
-          }else if (event.keyCode === 38){
-            this.highlight("up");
-          }else if(event.keyCode === 13 || event.keyCode === 9){
-            if(!Ember.isBlank(this.selectableSuggestion)){
-              this.send("selectItem", this.selectableSuggestion);
-              this.set("visibility", htmlSafe("display:none;"));
-            }else{
-                var value = this.get("selectedValue");
-                var optionsToMatch = this.get("optionsToMatch");
-                if (optionsToMatch.indexOf(value) >= 0) {
-                  this.set("selectedFromList", true);
-                  this.set("visibility", htmlSafe("display:none;"));
-                }
-            }
+  keyDown: function (event) {
+    if (this.get("visibility") !== HIDDEN) {
+      if (KeyCodes.keyPressed(event) === "downArrow") {
+        this.highlight("down");
+      } else if (KeyCodes.keyPressed(event) === "upArrow") {
+        this.highlight("up");
+      } else if (KeyCodes.keyPressed(event) === "enter" || KeyCodes.keyPressed(event) === "tab") {
+        if (!Ember.isBlank(this.selectableSuggestion)) {
+          this.send("selectItem", this.selectableSuggestion);
+          this.set("visibility", htmlSafe(HIDDEN));
+        } else {
+          var value = this.get("selectedValue");
+          var optionsToMatch = this.get("optionsToMatch");
+          if (optionsToMatch.indexOf(value) >= 0) {
+            this.set("selectedFromList", true);
+            this.set("visibility", htmlSafe(HIDDEN));
           }
-      }else{
-        this.set("visibility", htmlSafe("display:block;"));
+        }
       }
+    } else {
+      this.set("visibility", htmlSafe(VISIBLE));
+    }
   },
-  highlight: function(direction) {
-    var newHighlightIndex = -1;
-    if(direction === "down"){
-      newHighlightIndex = this.hightlightIndex + 1;
-    }else if( this.hightlightIndex > 0){
-      newHighlightIndex = this.hightlightIndex - 1;
+
+  highlight: function (direction) {
+    var length = this.get("suggestions").length;
+    var currentHighlight = this.get("highlightIndex");
+    var nextHighlight = getNewHighlightIndex(direction, currentHighlight, length);
+
+    if (currentHighlight >= 0) {
+      this.get("suggestions").objectAt(currentHighlight).set("highlight", false);
     }
-    if(newHighlightIndex < this.get("suggestions").length) {
-      if(this.hightlightIndex > -1){
-        var currentResult = this.get("suggestions").objectAt(this.hightlightIndex);
-        currentResult.set("highlight", false);
-      }
-      this.set("hightlightIndex", newHighlightIndex);
-      if(this.hightlightIndex > -1){
-        var nextResult = this.get("suggestions").objectAt(this.hightlightIndex);
-        nextResult.set("highlight", true);
-        this.set("selectableSuggestion", nextResult);
-      }
-    }
+
+    var newSelectedItem = this.get("suggestions").objectAt(nextHighlight);
+    newSelectedItem.set("highlight", true);
+    this.set("selectableSuggestion", newSelectedItem);
+    this.set("highlightIndex", nextHighlight);
   },
   actions: {
-    selectItem: function(item){
+    selectItem: function (item) {
       var valueProperty = this.get("valueProperty");
       this.set("selectedFromList", true);
       this.set("selectedValue", item.get(valueProperty));
