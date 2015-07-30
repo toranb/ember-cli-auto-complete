@@ -76,6 +76,22 @@ test("typing into the input with a valid value and doing onblur will set value",
   });
 });
 
+test("typing into the input with a valid value in lowercase and doing onblur will set value", function (assert) {
+  visit("/");
+  click("input.typeahead");
+  fillIn("input.typeahead", "Abc");
+  triggerEvent("input.typeahead", "keyup", LETTER_A);
+  triggerEvent("input.typeahead", "keyup", LETTER_B);
+  triggerEvent("input.typeahead", "keyup", LETTER_C);
+  andThen(function () {
+    assert.equal(find(".tt-suggestion").length, 1);
+  });
+  triggerEvent("input.typeahead", "blur");
+  andThen(function () {
+    assert.equal(find("input.typeahead").val(), "Abc");
+  });
+});
+
 test("typing into the input with an invalid value and doing onblur will not set value", function (assert) {
   visit("/");
   click("input.typeahead");
