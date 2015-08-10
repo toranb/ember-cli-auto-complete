@@ -29,6 +29,7 @@ export default Ember.Component.extend({
   layoutName: "components/auto-complete",
   highlightIndex: -1,
   visibility: HIDDEN,
+  hideWhenNoSuggestions: false,
   inputClass: '',
   inputClazz: Ember.computed(function () {
     return "typeahead text-input " + this.get('inputClass');
@@ -41,14 +42,14 @@ export default Ember.Component.extend({
       this.get("options").forEach(function (item) {
         item.set("highlight", false);
       });
-      this.set("visibility", VISIBLE);
+      this.setVisible();
       this.set("inputVal", Ember.$(event.target).val());
     }
     keepHighlightInView(event);
   },
   focusIn: function () {
     if (this.get("visibility") === HIDDEN) {
-      this.set("visibility", VISIBLE);
+      this.setVisible();
     }
   },
   focusOut: function () {
@@ -82,7 +83,7 @@ export default Ember.Component.extend({
         }
       }
     } else {
-      this.set("visibility", VISIBLE);
+      this.setVisible();
     }
   },
 
@@ -114,6 +115,10 @@ export default Ember.Component.extend({
     if (suggestions.length !== 1) { return false; }
 
     return input === suggestions[0].get(this.get('valueProperty')).toLowerCase();
+  },
+  setVisible(){
+    let visible =  !this.get('hideWhenNoSuggestions') || this.get('suggestions').length > 0;
+    this.set('visibility', (visible ? VISIBLE : HIDDEN));
   },
   actions: {
     selectItem: function (item) {
