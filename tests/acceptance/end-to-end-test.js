@@ -271,6 +271,21 @@ test("typing into the input will show no matching message when filter does not m
   });
 });
 
+test("when hideWhenNoSuggestions set, drowdown is hidden when filter does not match", function (assert) {
+  visit("/");
+  click("#hide-when-no-suggestions");
+  click("input.typeahead");
+  andThen(function () {
+    assert.equal(find(".tt-suggestion").length, 14);
+  });
+  fillIn("input.typeahead", "X");
+  triggerEvent("input.typeahead", "keyup", LETTER_X);
+  andThen(function () {
+    assert.equal(find(".tt-suggestion").length, 0);
+    assert.equal(find(".tt-dropdown-menu.hidden").length, 1);
+  });
+});
+
 test("typing a value that matches based on filter is set using the original/raw input value", function (assert) {
   visit("/");
   click("input.typeahead");

@@ -1,3 +1,9 @@
+<p>
+<strong>Styling Options:</strong>
+   {{input type="checkbox" id="hide-when-no-suggestions" checked=hideWhenNoSuggestions}}
+  <label>Hide Dropdown When No Suggestions</label>
+</p>
+
 Code: <h2>{{model.code}}</h2>
 
 <br />
@@ -7,7 +13,8 @@ Code: <h2>{{model.code}}</h2>
    selectedValue=model.code
    placeHolderText="Find a thing"
    inputClass="my-fun-input-thing andTwo"
-   noMesssagePlaceHolderText="No things are found"
+   noMesssagePlaceHolderText=noMessagePlaceholder
+   hideWhenNoSuggestions=hideWhenNoSuggestions
    selectItem="itemSelected" as |result|}}
   <p><b>{{result.code}}</b>{{result.text}}</p>
 {{/my-auto-complete}}
