@@ -101,6 +101,20 @@ selected `item`, bubbling through your routes and controllers.
   }
 ```
 
+##  Styling Attributes
+
+If you would like to hide the dropdown when there are no suggestions,
+set the `hideWhenNoSuggestions` attribute.
+
+```js
+{{#my-auto-complete
+   ...
+   hideWhenNoSuggestions=true
+   ...             }}
+```
+
+When you set this options, you will generally not want to set the `noMesssagePlaceHolderText` attribute.
+
 ## Running the unit tests
 
     npm install
