@@ -1,0 +1,15 @@
+Code: <h2>{{model.code}}</h2>
+
+<br />
+
+{{#my-auto-complete
+   options=codes
+   selectedValue=model.code
+   placeHolderText="Find a thing"
+   inputClass="my-fun-input-thing andTwo"
+   noMesssagePlaceHolderText=noMessagePlaceholder
+   hideWhenNoSuggestions=hideWhenNoSuggestions
+   selectItem="itemSelected" as |result|}}
+  <p><b>{{result.code}}</b>{{result.text}}</p>
+{{/my-auto-complete}}
+<p class="selection">{{selection}}</p>
