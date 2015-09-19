@@ -31,7 +31,6 @@ export default Ember.Component.extend({
   visibility: HIDDEN,
   hideWhenNoSuggestions: false,
   inputClass: '',
-  selectedValue: '',
   inputClazz: Ember.computed(function () {
     return "typeahead text-input " + this.get('inputClass');
   }),
