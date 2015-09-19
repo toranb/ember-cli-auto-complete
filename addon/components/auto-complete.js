@@ -34,6 +34,9 @@ export default Ember.Component.extend({
   inputClazz: Ember.computed(function () {
     return "typeahead text-input " + this.get('inputClass');
   }),
+  optionsToMatch: function() {
+    return this.get("options");
+  },
   keyUp: function (event) {
     if (KeyCodes.keyPressed(event) === "escape") {
       this.set("visibility", HIDDEN);
