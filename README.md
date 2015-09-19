@@ -18,23 +18,30 @@ npm install ember-cli-auto-complete --save-dev
 
 ## How to use this component
 
-First add a custom component that extends AutoComplete. In this component you need to add 1 function and 1 string variable.
+Add a custom component that extends AutoComplete, e.g.:
 
 ```
-1) determineSuggestions: this function will determine how the list of options is filtered as the user enters text (it gets passed the available options and the users input)
-2) valueProperty: this string should be the value property for the options passed in (think selectbox value/label)
+ember generate component my-auto-complete.
 ```
+
+Note: if you use use ember-cli to generate the component, it will create a template file e.g. `my-auto-complete.hbs`. Delete this if you don't intend to use it.
+
+In this component you need to set the `valueProperty` property and implement `suggestions`:
+
+1) `valueProperty` this string should be the value property for the options passed in (think selectbox value/label)
+2) `suggestions` this function will determine how the list of options is filtered as the user enters text (it gets passed the available options and the users input)
+
+e.g.
 
 ```js
 import AutoComplete from "ember-cli-auto-complete/components/auto-complete";
 
 export default AutoComplete.extend({
   valueProperty: "code",
-  determineSuggestions: function(options, input) {
+  suggestions: function(options, input) {
       var list = options.filter(function(item) {
           return item.get("code").toLowerCase().indexOf(input.toLowerCase()) > -1;
       });
-
       return Ember.A(list);
   }
 });
