@@ -34,6 +34,7 @@ export default Ember.Component.extend({
   inputClazz: Ember.computed(function () {
     return "typeahead text-input " + this.get('inputClass');
   }),
+  suggestions: [],
   optionsToMatch: function() {
     return this.get("options");
   },
