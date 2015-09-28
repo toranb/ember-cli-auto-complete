@@ -30,11 +30,13 @@ export default Ember.Component.extend({
   highlightIndex: -1,
   visibility: HIDDEN,
   hideWhenNoSuggestions: false,
-  suggestions: [],
   inputClass: '',
   inputClazz: Ember.computed(function () {
     return "typeahead text-input " + this.get('inputClass');
   }),
+  optionsToMatch: function() {
+    return this.get("options");
+  },
   keyUp: function (event) {
     if (KeyCodes.keyPressed(event) === "escape") {
       this.set("visibility", HIDDEN);
