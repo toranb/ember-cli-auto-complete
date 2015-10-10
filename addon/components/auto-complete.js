@@ -92,7 +92,9 @@ export default Ember.Component.extend({
   },
 
   onInput: Ember.observer('inputVal', function() {
-    this.set("suggestions", this.get('determineSuggestions'));
+    var options = this.get("options");
+    var input = this.getWithDefault("selectedValue", "");
+    this.set("suggestions", this.determineSuggestions(options, input));
   }),
 
   highlight: function (direction) {
