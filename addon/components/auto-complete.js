@@ -34,6 +34,7 @@ export default Ember.Component.extend({
   inputClazz: Ember.computed(function () {
     return "typeahead text-input " + this.get('inputClass');
   }),
+  suggestions: [],
   optionsToMatch: function() {
     return this.get("options");
   },
@@ -45,8 +46,8 @@ export default Ember.Component.extend({
       this.get("options").forEach(function (item) {
         item.set("highlight", false);
       });
-      this.setVisible();
       this.set("inputVal", Ember.$(event.target).val());
+      this.setVisible();
     }
     keepHighlightInView(event);
   },
@@ -93,7 +94,6 @@ export default Ember.Component.extend({
   onInput: Ember.observer('selectedValue', function() {
     var options = this.get("options");
     var input = this.getWithDefault("selectedValue", "");
-
     this.set("suggestions", this.determineSuggestions(options, input));
   }),
 
@@ -128,7 +128,6 @@ export default Ember.Component.extend({
       var valueProperty = this.get("valueProperty");
       this.set("selectedFromList", true);
       this.set("selectedValue", item.get(valueProperty));
-
       this.sendAction('selectItem', item);
     }
   }

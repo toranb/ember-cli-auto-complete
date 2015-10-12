@@ -29,7 +29,7 @@ Note: if you use use ember-cli to generate the component, it will create a templ
 In this component you need to set the `valueProperty` property and implement `suggestions`:
 
 1. `valueProperty` this string should be the value property for the options passed in (think selectbox value/label)
-2. `suggestions` this function will determine how the list of options is filtered as the user enters text (it gets passed the available options and the users input)
+2. `determineSuggestions` this function will determine how the list of options is filtered as the user enters text (it gets passed the available options and the users input). This function should return an array.
 
 e.g.
 
@@ -38,7 +38,7 @@ import AutoComplete from "ember-cli-auto-complete/components/auto-complete";
 
 export default AutoComplete.extend({
   valueProperty: "code",
-  suggestions: function(options, input) {
+  determineSuggestions: function(options, input) {
       var list = options.filter(function(item) {
           return item.get("code").toLowerCase().indexOf(input.toLowerCase()) > -1;
       });
