@@ -1,25 +1,25 @@
 import Ember from "ember";
+const { get } = Ember;
 
-var Foo = Ember.Object.extend({});
 var Bar = Ember.Object.extend({code: ""});
 
 export default Ember.Route.extend({
   model: function() {
     var codes = Ember.A([]);
-    codes.pushObject(Foo.create({code: "ABC", text: "SOMETHING 1"}));
-    codes.pushObject(Foo.create({code: "ABD", text: "SOMETHING 2"}));
-    codes.pushObject(Foo.create({code: "ABZ", text: "SOMETHING 3"}));
-    codes.pushObject(Foo.create({code: "BDE", text: "SOMETHING 4"}));
-    codes.pushObject(Foo.create({code: "BFN", text: "SOMETHING 5"}));
-    codes.pushObject(Foo.create({code: "BFZ", text: "SOMETHING 6"}));
-    codes.pushObject(Foo.create({code: "BFC", text: "SOMETHING 7"}));
-    codes.pushObject(Foo.create({code: "BZN", text: "SOMETHING 8"}));
-    codes.pushObject(Foo.create({code: "BZZ", text: "SOMETHING 9"}));
-    codes.pushObject(Foo.create({code: "BZA", text: "SOMETHING 10"}));
-    codes.pushObject(Foo.create({code: "BZB", text: "SOMETHING 11"}));
-    codes.pushObject(Foo.create({code: "BZC", text: "SOMETHING 12"}));
-    codes.pushObject(Foo.create({code: "BZD", text: "SOMETHING 13"}));
-    codes.pushObject(Foo.create({code: "BZE", text: "SOMETHING 14"}));
+    codes.pushObject({code: "ABC", text: "SOMETHING 1"});
+    codes.pushObject({code: "ABD", text: "SOMETHING 2"});
+    codes.pushObject({code: "ABZ", text: "SOMETHING 3"});
+    codes.pushObject({code: "BDE", text: "SOMETHING 4"});
+    codes.pushObject({code: "BFN", text: "SOMETHING 5"});
+    codes.pushObject({code: "BFZ", text: "SOMETHING 6"});
+    codes.pushObject({code: "BFC", text: "SOMETHING 7"});
+    codes.pushObject({code: "BZN", text: "SOMETHING 8"});
+    codes.pushObject({code: "BZZ", text: "SOMETHING 9"});
+    codes.pushObject({code: "BZA", text: "SOMETHING 10"});
+    codes.pushObject({code: "BZB", text: "SOMETHING 11"});
+    codes.pushObject({code: "BZC", text: "SOMETHING 12"});
+    codes.pushObject({code: "BZD", text: "SOMETHING 13"});
+    codes.pushObject({code: "BZE", text: "SOMETHING 14"});
     return Ember.RSVP.hash({
       model: Bar.create(),
       codes: codes
@@ -31,7 +31,7 @@ export default Ember.Route.extend({
   },
   actions: {
     itemSelected: function(item) {
-      this.get('controller').set('selection', item.get('code'));
+      this.get('controller').set('selection', get(item, 'code'));
     }
   }
 });

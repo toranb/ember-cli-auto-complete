@@ -1,5 +1,6 @@
 import Ember from "ember";
 import KeyCodes from '../utilities/key-codes';
+const { get, set } = Ember;
 
 var focusOutEvent;
 
@@ -44,7 +45,7 @@ export default Ember.Component.extend({
     } else if (!KeyCodes.isEscapedCode(event)) {
       this.set("highlightIndex", -1);
       this.get("options").forEach(function (item) {
-        item.set("highlight", false);
+        set(item, "highlight", false);
       });
       this.set("inputVal", Ember.$(event.target).val());
       this.setVisible();
@@ -103,11 +104,12 @@ export default Ember.Component.extend({
     var nextHighlight = getNewHighlightIndex(direction, currentHighlight, length);
 
     if (currentHighlight >= 0) {
-      this.get("suggestions").objectAt(currentHighlight).set("highlight", false);
+      var suggestion = this.get("suggestions").objectAt(currentHighlight);
+      set(suggestion, "highlight", false);
     }
 
     var newSelectedItem = this.get("suggestions").objectAt(nextHighlight);
-    newSelectedItem.set("highlight", true);
+    set(newSelectedItem, "highlight", true);
     this.set("selectableSuggestion", newSelectedItem);
     this.set("highlightIndex", nextHighlight);
   },
@@ -117,7 +119,7 @@ export default Ember.Component.extend({
 
     if (suggestions.length !== 1) { return false; }
 
-    return input === suggestions[0].get(this.get('valueProperty')).toLowerCase();
+    return input === get(suggestions[0], this.get('valueProperty')).toLowerCase();
   },
   setVisible(){
     let visible =  !this.get('hideWhenNoSuggestions') || this.get('suggestions').length > 0;
@@ -127,7 +129,7 @@ export default Ember.Component.extend({
     selectItem: function (item) {
       var valueProperty = this.get("valueProperty");
       this.set("selectedFromList", true);
-      this.set("selectedValue", item.get(valueProperty));
+      this.set("selectedValue", get(item, valueProperty));
       this.sendAction('selectItem', item);
     }
   }
