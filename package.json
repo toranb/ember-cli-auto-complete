@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-auto-complete",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "ember-cli addon that provides type-ahead selection for text inputs",
   "directories": {
     "doc": "doc",
