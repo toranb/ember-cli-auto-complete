@@ -16,14 +16,16 @@ function getNewHighlightIndex(direction, index, length) {
   return index;
 }
 
-function keepHighlightInView(event) {
-  var highlighted = document.getElementsByClassName("tt-cursor")[0];
-  if (highlighted) {
-    if (KeyCodes.keyPressed(event) === "downArrow") {
-      highlighted.scrollIntoView(false);
-    } else if (KeyCodes.keyPressed(event) === "upArrow") {
-      highlighted.scrollIntoView();
-    }
+function keepHighlightInView() {
+  const highlighted = document.getElementsByClassName("tt-cursor")[0];
+  if (highlighted == null) { return; }
+
+  const parent = highlighted.parentNode;
+  const needsScroll = (highlighted.offsetTop < parent.scrollTop) ||
+                      (highlighted.offsetTop + highlighted.offsetHeight > parent.offsetHeight);
+
+  if (needsScroll) {
+    highlighted.parentNode.scrollTop = highlighted.offsetTop;
   }
 }
 export default Ember.Component.extend({
