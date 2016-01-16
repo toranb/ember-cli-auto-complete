@@ -2,6 +2,8 @@
 
 [![Build Status][]](https://travis-ci.org/toranb/ember-cli-auto-complete)
 
+This project is no longer actively maintained because other great addons like [ember-power-select][] do a much better job :)
+
 ## Description
 
 [ember-cli][] addon that provides type-ahead selection for text inputs (requires ember.js 1.11+)
@@ -154,3 +156,4 @@ Licensed under the MIT License
 [Nick Christus]: https://github.com/nchristus
 [Charlie]: https://github.com/klclee
 [ember-cli-suggest]: https://github.com/klclee/ember-cli-suggest
+[ember-power-select]: https://github.com/cibernox/ember-power-select
