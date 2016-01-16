@@ -440,3 +440,27 @@ test("moving up and down will keep highlighted items in view", function (assert)
     });
   });
 });
+
+test("clicking out of the autocomplete will not throw null pointer exception", function (assert) {
+  visit("/bar");
+  click("input.typeahead");
+  fillIn("input.typeahead", "AAA");
+  triggerEvent("input.typeahead", "keyup", LETTER_A);
+  triggerEvent("input.typeahead", "keyup", LETTER_A);
+  triggerEvent("input.typeahead", "keyup", LETTER_A);
+  andThen(function () {
+    assert.equal(find(".tt-suggestion").length, 1);
+  });
+  triggerEvent("input.typeahead", "keyup", ENTER);
+  andThen(function () {
+    assert.equal(find("input.typeahead").val(), "AAA");
+  });
+  click("input.typeahead");
+  andThen(function () {
+    assert.equal(find(".tt-dropdown-menu").is(":hidden"), false);
+  });
+  triggerEvent("input.typeahead", "blur");
+  andThen(function () {
+    assert.equal(find(".tt-dropdown-menu").is(":hidden"), true);
+  });
+});
