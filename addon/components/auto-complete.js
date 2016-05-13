@@ -9,7 +9,7 @@ const HIDDEN = "hidden";
 
 export default Ember.Component.extend({
   _keepHighlightInView(event) {
-    let highlighted = document.getElementsByClassName("tt-cursor")[0];
+    let highlighted = this.$(".tt-cursor")[0];
     if (highlighted) {
       if (KeyCodes.keyPressed(event) === "downArrow") {
         highlighted.scrollIntoView(false);
