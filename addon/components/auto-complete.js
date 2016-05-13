@@ -35,10 +35,10 @@ export default Ember.Component.extend({
     return "typeahead text-input " + this.get("inputClass");
   }),
   suggestions: [],
-  optionsToMatch: function() {
+  optionsToMatch() {
     return this.get("options");
   },
-  keyUp: function (event) {
+  keyUp(event) {
     if (KeyCodes.keyPressed(event) === "escape") {
       this.set("visibility", HIDDEN);
     } else if (!KeyCodes.isEscapedCode(event)) {
@@ -51,27 +51,25 @@ export default Ember.Component.extend({
     }
     this._keepHighlightInView(event);
   },
-  focusIn: function () {
+  focusIn() {
     if (this.get("visibility") === HIDDEN) {
       this.setVisible();
     }
   },
-  focusOut: function () {
+  focusOut() {
     clearTimeout(focusOutEvent);
-    var self = this;
-    var func = function () {
-      if (self.isDestroyed) {
+    focusOutEvent = Ember.run.later(this, () => {
+      if (this.isDestroyed) {
         return;
       }
-      self.set("visibility", HIDDEN);
-      if (!self.get("selectedFromList") && !self.hasInputMatchingSuggestion()) {
-        self.set("inputVal", "");
-        self.set("selectedValue", "");
+      this.set("visibility", HIDDEN);
+      if (!this.get("selectedFromList") && !this.hasInputMatchingSuggestion()) {
+        this.set("inputVal", "");
+        this.set("selectedValue", "");
       }
-    };
-    focusOutEvent = Ember.run.later(this, func, 200);
+    }, 200);
   },
-  keyDown: function (event) {
+  keyDown(event) {
     if (this.get("visibility") !== HIDDEN) {
       if (KeyCodes.keyPressed(event) === "downArrow") {
         this.highlight("down");
@@ -92,29 +90,29 @@ export default Ember.Component.extend({
   },
 
   onInput: Ember.observer("selectedValue", function() {
-    var options = this.get("options");
-    var input = this.getWithDefault("selectedValue", "");
+    let options = this.get("options");
+    let input = this.getWithDefault("selectedValue", "");
     this.set("suggestions", this.determineSuggestions(options, input));
   }),
 
-  highlight: function (direction) {
-    var length = this.get("suggestions").length;
-    var currentHighlight = this.get("highlightIndex");
-    var nextHighlight = this._getNewHighlightIndex(direction, currentHighlight, length);
+  highlight(direction) {
+    let length = this.get("suggestions").length;
+    let currentHighlight = this.get("highlightIndex");
+    let nextHighlight = this._getNewHighlightIndex(direction, currentHighlight, length);
 
     if (currentHighlight >= 0) {
-      var suggestion = this.get("suggestions").objectAt(currentHighlight);
+      let suggestion = this.get("suggestions").objectAt(currentHighlight);
       set(suggestion, "highlight", false);
     }
 
-    var newSelectedItem = this.get("suggestions").objectAt(nextHighlight);
+    let newSelectedItem = this.get("suggestions").objectAt(nextHighlight);
     set(newSelectedItem, "highlight", true);
     this.set("selectableSuggestion", newSelectedItem);
     this.set("highlightIndex", nextHighlight);
   },
-  hasInputMatchingSuggestion: function() {
-    var suggestions = this.get("suggestions");
-    var input = this.getWithDefault("selectedValue", "").toLowerCase();
+  hasInputMatchingSuggestion() {
+    let suggestions = this.get("suggestions");
+    let input = this.getWithDefault("selectedValue", "").toLowerCase();
 
     if (suggestions.length !== 1) { return false; }
 
@@ -125,8 +123,8 @@ export default Ember.Component.extend({
     this.set("visibility", (visible ? VISIBLE : HIDDEN));
   },
   actions: {
-    selectItem: function (item) {
-      var valueProperty = this.get("valueProperty");
+    selectItem(item) {
+      let valueProperty = this.get("valueProperty");
       this.set("selectedFromList", true);
       this.set("selectedValue", get(item, valueProperty));
       this.sendAction("selectItem", item);
