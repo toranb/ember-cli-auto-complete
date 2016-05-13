@@ -7,26 +7,25 @@ var focusOutEvent;
 const VISIBLE = "visible";
 const HIDDEN = "hidden";
 
-function getNewHighlightIndex(direction, index, length) {
-  if (direction === "down" && index < length - 1) {
-    return index + 1;
-  } else if (direction === "up" && index > 0) {
-    return index - 1;
-  }
-  return index;
-}
-
-function keepHighlightInView(event) {
-  var highlighted = document.getElementsByClassName("tt-cursor")[0];
-  if (highlighted) {
-    if (KeyCodes.keyPressed(event) === "downArrow") {
-      highlighted.scrollIntoView(false);
-    } else if (KeyCodes.keyPressed(event) === "upArrow") {
-      highlighted.scrollIntoView();
-    }
-  }
-}
 export default Ember.Component.extend({
+  _keepHighlightInView(event) {
+    let highlighted = document.getElementsByClassName("tt-cursor")[0];
+    if (highlighted) {
+      if (KeyCodes.keyPressed(event) === "downArrow") {
+        highlighted.scrollIntoView(false);
+      } else if (KeyCodes.keyPressed(event) === "upArrow") {
+        highlighted.scrollIntoView();
+      }
+    }
+  },
+  _getNewHighlightIndex(direction, index, length) {
+    if (direction === "down" && index < length - 1) {
+      return index + 1;
+    } else if (direction === "up" && index > 0) {
+      return index - 1;
+    }
+    return index;
+  },
   layoutName: "components/auto-complete",
   highlightIndex: -1,
   visibility: HIDDEN,
@@ -50,7 +49,7 @@ export default Ember.Component.extend({
       this.set("inputVal", Ember.$(event.target).val());
       this.setVisible();
     }
-    keepHighlightInView(event);
+    this._keepHighlightInView(event);
   },
   focusIn: function () {
     if (this.get("visibility") === HIDDEN) {
@@ -101,7 +100,7 @@ export default Ember.Component.extend({
   highlight: function (direction) {
     var length = this.get("suggestions").length;
     var currentHighlight = this.get("highlightIndex");
-    var nextHighlight = getNewHighlightIndex(direction, currentHighlight, length);
+    var nextHighlight = this._getNewHighlightIndex(direction, currentHighlight, length);
 
     if (currentHighlight >= 0) {
       var suggestion = this.get("suggestions").objectAt(currentHighlight);
