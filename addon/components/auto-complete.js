@@ -1,5 +1,5 @@
 import Ember from "ember";
-import KeyCodes from '../utilities/key-codes';
+import KeyCodes from "../utilities/key-codes";
 const { get, set } = Ember;
 
 var focusOutEvent;
@@ -30,9 +30,9 @@ export default Ember.Component.extend({
   highlightIndex: -1,
   visibility: HIDDEN,
   hideWhenNoSuggestions: false,
-  inputClass: '',
+  inputClass: "",
   inputClazz: Ember.computed(function () {
-    return "typeahead text-input " + this.get('inputClass');
+    return "typeahead text-input " + this.get("inputClass");
   }),
   suggestions: [],
   optionsToMatch: function() {
@@ -91,7 +91,7 @@ export default Ember.Component.extend({
     }
   },
 
-  onInput: Ember.observer('selectedValue', function() {
+  onInput: Ember.observer("selectedValue", function() {
     var options = this.get("options");
     var input = this.getWithDefault("selectedValue", "");
     this.set("suggestions", this.determineSuggestions(options, input));
@@ -113,23 +113,23 @@ export default Ember.Component.extend({
     this.set("highlightIndex", nextHighlight);
   },
   hasInputMatchingSuggestion: function() {
-    var suggestions = this.get('suggestions');
-    var input = this.getWithDefault('selectedValue', '').toLowerCase();
+    var suggestions = this.get("suggestions");
+    var input = this.getWithDefault("selectedValue", "").toLowerCase();
 
     if (suggestions.length !== 1) { return false; }
 
-    return input === get(suggestions[0], this.get('valueProperty')).toLowerCase();
+    return input === get(suggestions[0], this.get("valueProperty")).toLowerCase();
   },
   setVisible(){
-    let visible =  !this.get('hideWhenNoSuggestions') || this.get('suggestions').length > 0;
-    this.set('visibility', (visible ? VISIBLE : HIDDEN));
+    let visible =  !this.get("hideWhenNoSuggestions") || this.get("suggestions").length > 0;
+    this.set("visibility", (visible ? VISIBLE : HIDDEN));
   },
   actions: {
     selectItem: function (item) {
       var valueProperty = this.get("valueProperty");
       this.set("selectedFromList", true);
       this.set("selectedValue", get(item, valueProperty));
-      this.sendAction('selectItem', item);
+      this.sendAction("selectItem", item);
     }
   }
 });
